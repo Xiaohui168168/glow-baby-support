@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グローバビーサポート (Glow Baby Support)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fff9e6, #e6f7ff);
+            background-image: url('https://img.freepik.com/premium-vector/sunbeams-shining-from-clouds-background-vector-illustration_191111-254.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .chat-container {
+            width: 450px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3717/3717476.png');
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+        }
+
+        .chat-messages {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user-message {
+            text-align: right;
+            background-color: #e6f7ff;
+            color: #007bff;
+            margin-left: 30%;
+        }
+
+        .bot-message {
+            text-align: left;
+            background-color: #f2f2f2;
+            color: #333333;
+            margin-right: 30%;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #send-button {
+            margin-left: 15px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        #send-button:hover {
+            background: linear-gradient(135deg, #0056b3, #003d82);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>グローバビーサポート (Glow Baby Support)</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="メッセージを入力してください">
+            <button id="send-button">送信</button>
+        </div>
+    </div>
+    <script>
+        // 获取 DOM 元素
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // 检查元素是否存在
+        if (!chatMessages || !userInput || !sendButton) {
+            console.error('无法找到必要的 DOM 元素，请检查 HTML 文件。');
+            return;
+        }
+
+        // 模拟生成回复的函数
+        function generateReply(customerMessage) {
+            if (customerMessage.includes('产品效果')) {
+                return "こちらの商品は、多くのお客様から高い評価をいただいており、実際に効果があることが証明されていますよ😊。";
+            } else if (customerMessage.includes('价格')) {
+                return "価格は合理的で、今のところ特典もありますので、お得にお買い求めいただけますよ😃。";
+            } else {
+                return "お問い合わせいただきありがとうございます。もう少し詳しく教えていただけると、より適切な回答ができます🙏。";
+            }
+        }
+
+        // 创建消息元素的函数
+        function createMessageElement(message, className) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', className);
+            messageElement.textContent = message;
+            return messageElement;
+        }
+
+        // 发送消息的函数
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            // 显示用户消息
+            const userMessageElement = createMessageElement(message, 'user-message');
+            chatMessages.appendChild(userMessageElement);
+
+            // 生成回复
+            const reply = generateReply(message);
+
+            // 显示机器人回复
+            const botMessageElement = createMessageElement(reply, 'bot-message');
+            chatMessages.appendChild(botMessageElement);
+
+            // 清空输入框
+            userInput.value = '';
+
+            // 滚动到聊天框底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 绑定发送按钮点击事件
+        sendButton.addEventListener('click', sendMessage);
+
+        // 绑定输入框回车键事件
+        userInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+
+</html>    
